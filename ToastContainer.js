@@ -27,6 +27,9 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
+  },
+  messageContent: {
+    paddingLeft: ".5rem"
   }
 }))
 
@@ -48,7 +51,9 @@ const StyledContent = ({ type, message, close, ...rest }) => {
       message={ 
         <div className={ classes.message } >
           <Icon className={ classes.icon } />
-          { message }
+          <div className={ classes.messageContent }>
+            { message }
+          </div>
         </div>
       }
       action={[
