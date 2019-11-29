@@ -1,13 +1,13 @@
-import React from 'react';
-import { Snackbar, SnackbarContent, IconButton, makeStyles } from '@material-ui/core';
-import { green, amber } from '@material-ui/core/colors';
-import CloseIcon from '@material-ui/icons/Close';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
-import WarningIcon from '@material-ui/icons/Warning';
+import React from 'react'
+import { Snackbar, SnackbarContent, IconButton, makeStyles } from '@material-ui/core'
+import { green, amber } from '@material-ui/core/colors'
+import CloseIcon from '@material-ui/icons/Close'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import ErrorIcon from '@material-ui/icons/Error'
+import InfoIcon from '@material-ui/icons/Info'
+import WarningIcon from '@material-ui/icons/Warning'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles (theme => ({
   success: {
     backgroundColor: green[600]
   },
@@ -21,15 +21,15 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: amber[700]
   },
   icon: {
-    color: "white"
+    color: 'white'
   },
   message: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   messageContent: {
-    paddingLeft: ".5rem"
+    paddingLeft: '.5rem'
   }
 }))
 
@@ -58,8 +58,8 @@ const StyledContent = ({ type, message, close, ...rest }) => {
       }
       action={[
         <IconButton 
-          key="close"
-          color="inherit"
+          key='close'
+          color='inherit'
           onClick={ close }
         >
           <CloseIcon className={ classes.icon } />
@@ -73,71 +73,57 @@ class ToastContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      toastList: [],
-      counter: 0
+      counter: 0,
+      toast: {}
     }
+    this.addToast = this.addToast.bind(this)
+    this.closeToast = this.closeToast.bind(this)
   }
 
-  addToast(toast) {
+  addToast (toast) {
     this.setState({
-      toastList: [...this.state.toastList.filter(toast => toast.open), { id: this.state.counter, open: true, ...toast }]
+      toast: { id: this.state.counter, open: true, ...toast }
     })
     this.setState({
       counter: this.state.counter + 1
     })
   }
 
-  closeToast(id) {
+  closeToast () {
     this.setState({
-      toastList: [...this.state.toastList.map(toast => id === toast.id ? {...toast, open: false} : toast)]
-    })
-  }
-
-  clearClosed() {
-    this.setState({
-      toastList: this.state.toastList.filter(toast => toast.open)
+      toast: { ...this.state.toast, open: false }
     })
   }
 
   render() {
+    const {
+      type,
+      message,
+      id, 
+      open, 
+      anchorOrigin = { horizontal: 'right', vertical: 'top' },
+      autoHideDuration = 3000,
+      disableWindowBlurListener = true,
+      contentProps,
+      ...rest
+    } = this.state.toast
     return (
-      <div>
-        {
-          this.state.toastList.map(
-            ({
-              id,
-              type,
-              open,
-              message,
-              contentProps={},
-              anchorOrigin={ horizontal: "right", vertical: "top" },
-              autoHideDuration=3000,
-              disableWindowBlurListener=true,
-              ...rest
-            }) => {
-              return open ? (
-                <Snackbar
-                  key={ id }
-                  open={ open }
-                  anchorOrigin={ anchorOrigin }
-                  autoHideDuration={ autoHideDuration }
-                  disableWindowBlurListener={ disableWindowBlurListener }
-                  onClose={ _ => this.closeToast(id) }
-                  onExited={ this.clearClosed }
-                  { ...rest }
-                >
-                  <StyledContent
-                    type={ type }
-                    message={ message }
-                    close={ _ => this.closeToast(id) }
-                    { ...contentProps }
-                  />
-                </Snackbar>
-              ) : null
-            }
-          )
-        }
-      </div>
+      <Snackbar
+        key={ id }
+        open={ open }
+        anchorOrigin={ anchorOrigin }
+        autoHideDuration={ autoHideDuration }
+        disableWindowBlurListener={ disableWindowBlurListener }
+        onClose={ this.closeToast }
+        { ...rest }
+      >
+        <StyledContent
+          type={ type }
+          message={ message }
+          close={ this.closeToast }
+          { ...contentProps }
+        />
+      </Snackbar>
     )
   }
 }
