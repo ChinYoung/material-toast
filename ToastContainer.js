@@ -17,7 +17,7 @@ const useStyles = makeStyles (theme => ({
   info: {
     backgroundColor: theme.palette.primary.main
   },
-  waring: {
+  warning: {
     backgroundColor: amber[700]
   },
   icon: {
@@ -37,7 +37,7 @@ const msgIcons = {
   success: CheckCircleIcon,
   error: ErrorIcon,
   info: InfoIcon,
-  waring: WarningIcon
+  warning: WarningIcon
 }
 
 
