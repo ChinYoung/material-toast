@@ -1,8 +1,8 @@
 # material-toast
 A component based on react framework &lt;material-ui&gt; to show toast
 
-# Be aware that currently the package have not being published to NPM. 
-- OK, I`m new, let me learn HOW-TO first 😂
+# Install
+npm i material-toast
 
 # Usage
 ```
